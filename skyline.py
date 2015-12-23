@@ -3,7 +3,7 @@ import operator
 from mido import MidiFile
 
 
-filename = 'test2'
+filename = 'test3'
 mid_in = MidiFile(filename+'.mid')
 
 #change time

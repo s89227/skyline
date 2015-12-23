@@ -30,13 +30,14 @@ mid_out.charset = mid_in.charset
 for i, track in enumerate(mid_in.tracks):
 	#create same number of track of mid_in for mid_out
 	mid_out.add_track()
+	#mid_out.tracks[i].name = track.name
 
 	for message in track:
 		#meta message
 		if message.type != 'note_on' and message.type != 'note_off':
-			"""message.time += tick
-			tick = 0
-			mid_out.tracks[i].append(message)"""
+			#message.time += tick
+			#tick = 0
+			#mid_out.tracks[i].append(message)
 			print(1)
 
 		#note on event
@@ -49,16 +50,22 @@ for i, track in enumerate(mid_in.tracks):
 					#sort by note(low to high)
 					now_on.sort()
 					now_on_msg.sort(key=lambda message: message.note)
-					sky.velocity = 0
-					sky.time = message.time + tick
-					tick = 0
-					message.time = 0
-					mid_out.tracks[i].append(sky)
 
-				message.time += tick
-				tick = 0
-				mid_out.tracks[i].append(message)
-				sky = message
+					temp = mido.Message('note_off')
+					temp.note = sky.note
+					temp.channel = sky.channel
+					temp.velocity = 0
+					temp.time = message.time
+					message.time = tick
+					tick = 0
+					mid_out.tracks[i].append(temp)
+					mid_out.tracks[i].append(message)
+					sky = message
+				else:
+					message.time += tick
+					tick = 0
+					mid_out.tracks[i].append(message)
+					sky = message
 
 			elif not(message.note in now_on):
 				tick += message.time

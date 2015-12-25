@@ -1,6 +1,6 @@
 from mido import MidiFile
 
-mid = MidiFile('test2.mid')
+mid = MidiFile('tarantella1_1.mid')
 
 for i, track in enumerate(mid.tracks):
     print('Track {}:'.format(i))

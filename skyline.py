@@ -3,8 +3,8 @@ import operator
 from mido import MidiFile
 
 
-filename = 'test3'
-mid_in = MidiFile(filename+'.mid')
+filename = 'waltz8'
+mid_in = MidiFile(filename+'_2.mid')
 
 #change time
 """for i in range(0,len(mid_in.tracks)-1,1):
@@ -30,15 +30,16 @@ mid_out.charset = mid_in.charset
 for i, track in enumerate(mid_in.tracks):
 	#create same number of track of mid_in for mid_out
 	mid_out.add_track()
-	#mid_out.tracks[i].name = track.name
+	mid_out.tracks[i].name = track.name
 
 	for message in track:
 		#meta message
 		if message.type != 'note_on' and message.type != 'note_off':
-			#message.time += tick
-			#tick = 0
-			#mid_out.tracks[i].append(message)
-			print(1)
+			message.time += tick
+			tick = 0
+			mid_out.tracks[i].append(message)
+			#tick += message.time
+			#print(1)
 
 		#note on event
 		elif message.type == 'note_on' and message.velocity != 0:
@@ -120,4 +121,4 @@ for i, track in enumerate(mid_in.tracks):
     for message in track:
         print(message)"""
 
-mid_out.save(filename+'_1.mid')
+mid_out.save(filename+'_3.mid')

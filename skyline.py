@@ -3,15 +3,19 @@ import operator
 from mido import MidiFile
 
 
-filename = 'waltz8'
-mid_in = MidiFile(filename+'_2.mid')
+filename = 'test3'
+mid_in = MidiFile(filename+'_1.mid')
 
 #change time
-"""for i in range(0,len(mid_in.tracks)-1,1):
+for i in range(0,len(mid_in.tracks)-1,1):
     t=0
+    if mid_in.tracks[i][0].type == 'note_on' or mid_in.tracks[i][0].type == 'note_off' or mid_in.tracks[i][0].type == 'polytouch' or mid_in.tracks[i][0].type == 'control_change' or mid_in.tracks[i][0].type == 'program_change' or mid_in.tracks[i][0].type == 'aftertouch' or mid_in.tracks[i][0].type == 'pitchwheel':
+    	mid_in.tracks[i][0].channel = 0
     for j in range(1,len(mid_in.tracks[i])-1,1):
        	t += mid_in.tracks[i][j].time
-       	mid_in.tracks[i][j].time = t"""
+       	mid_in.tracks[i][j].time = t
+       	if mid_in.tracks[i][0].type == 'note_on' or mid_in.tracks[i][0].type == 'note_off' or mid_in.tracks[i][0].type == 'polytouch' or mid_in.tracks[i][0].type == 'control_change' or mid_in.tracks[i][0].type == 'program_change' or mid_in.tracks[i][0].type == 'aftertouch' or mid_in.tracks[i][0].type == 'pitchwheel':
+    		mid_in.tracks[i][0].channel = 0
 
 mid_out = MidiFile()
 now_on = []
@@ -44,7 +48,7 @@ for i, track in enumerate(mid_in.tracks):
 		#note on event
 		elif message.type == 'note_on' and message.velocity != 0:
 			if message.note >= sky.note:
-				if(sky.note > 0):
+				if sky.note > 0 and message.note != sky.note:
 					sky.time = 0
 					now_on.append(sky.note)
 					now_on_msg.append(sky)
@@ -110,15 +114,15 @@ for i, track in enumerate(mid_in.tracks):
 	tick = 0
 
 #change time back
-"""for i in range(len(mid_out.tracks)-1,0,-1):
+for i in range(len(mid_out.tracks)-1,0,-1):
 	for j in range(len(mid_out.tracks[i])-1,1,-1):
 		mid_out.tracks[i][j].time = mid_out.tracks[i][j].time - mid_out.tracks[i][j-1].time
 		if mid_out.tracks[i][j].time < 0:
-			mid_out.tracks[i][j].time = 0"""
+			mid_out.tracks[i][j].time = 0
 
-"""for i, track in enumerate(mid_out.tracks):
+for i, track in enumerate(mid_out.tracks):
     print('Track {}: {}'.format(i, track.name))
     for message in track:
-        print(message)"""
+        print(message)
 
-mid_out.save(filename+'_3.mid')
+mid_out.save(filename+'_2.mid')
